@@ -1,0 +1,2293 @@
+<!DOCTYPE html>
+<!--
+==============================================
+  版权所有 © 2026 Wenyi
+  本代码受版权保护，未经授权不得复制、修改或商业使用
+  作者：Wenyi
+  网站：WW CommHub
+  用途：新传考研学习工具
+  最后更新：2026-04-22
+==============================================
+-->
+<html lang="zh-CN">
+<head>
+    <!-- 防盗标记：请勿删除此注释，否则可能导致功能异常 -->
+    <!-- 作者：Wenyi -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>WW CommHub · 新传考研</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #fff9f9;  /* 柔白底 */
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', 'Quicksand', 'Poppins', sans-serif;
+            color: #4a3b3f;
+            line-height: 1.5;
+        }
+
+        /* 梦幻滚动条 */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffe4e4;
+            border-radius: 12px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FFA7A7;
+            border-radius: 12px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* 头部 */
+        .hero {
+            margin-bottom: 4rem;
+            text-align: center;
+            padding: 6rem 2rem 3rem 2rem;
+        }
+        .hero-main {
+            margin-bottom: 2rem;
+        }
+        .hero-title {
+            font-family: 'Pacifico', cursive;
+            font-size: 6vw;
+            font-weight: 400;
+            background: linear-gradient(135deg, #FFA7A7, #ffc2c2, #ffe0e0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 12px rgba(255, 167, 167, 0.3);
+            margin: 0;
+            line-height: 1.2;
+        }
+        .hero-subtitle {
+            font-family: 'Ma Shan Zheng', cursive;
+            color: #b57c7c;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            margin-top: 1.5rem;
+        }
+
+        /* 卡片通用风格：白色为主，粉色细节点缀 */
+        .card, .step-item, .subject-card, .hot-card, .topic-tree, .topic-detail, .exam-paper {
+            background: #ffffff;
+            border-radius: 32px;
+            box-shadow: 0 12px 28px -8px rgba(255, 167, 167, 0.2), 0 1px 2px rgba(0,0,0,0.02);
+            transition: all 0.25s ease;
+            border: 1px solid #fff0f0;
+        }
+        .step-item:hover, .subject-card:hover, .hot-card:hover, .topic-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 30px -12px #ffcfcf;
+            border-color: #FFA7A7;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #b57272;
+        }
+        .section-title i {
+            color: #FFA7A7;
+            font-size: 1.4rem;
+            filter: drop-shadow(0 2px 4px #ffe0e0);
+        }
+
+        /* 时间轴 */
+        .timeline-steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .step-item {
+            flex: 1;
+            min-width: 160px;
+            padding: 1rem 0.8rem;
+            text-align: center;
+        }
+        .step-date {
+            font-weight: 700;
+            color: #FFA7A7;
+            background: #fff5f5;
+            display: inline-block;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+        }
+        .step-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #a56b6b;
+        }
+        .step-desc {
+            font-size: 0.8rem;
+            color: #ac7e7e;
+        }
+
+        /* 专业课卡片 */
+        .subject-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .subject-card {
+            padding: 1.4rem;
+        }
+        .subject-icon {
+            width: 48px;
+            height: 48px;
+            background: #fff0f0;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        .subject-icon i {
+            font-size: 1.6rem;
+            color: #FFA7A7;
+        }
+        .subject-card h3 {
+            color: #bc7a7a;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #FFD0D0;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #cd8686;
+        }
+        .btn-outline:hover {
+            background: #FFA7A7;
+            border-color: #FFA7A7;
+            color: white;
+        }
+
+        /* 热点板块 */
+        .hot-section {
+            margin-bottom: 2rem;
+        }
+        .hot-grid {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .hot-card {
+            flex: 1;
+            padding: 1rem 1.2rem;
+        }
+        .hot-card h3 {
+            color: #c17e7e;
+            border-left: 4px solid #FFA7A7;
+            padding-left: 0.6rem;
+        }
+        .hot-list {
+            list-style: none;
+            margin-top: 0.8rem;
+        }
+        .hot-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #ffe8e8;
+            font-size: 0.85rem;
+            cursor: pointer;
+            color: #956b6b;
+        }
+        .hot-list li:hover {
+            color: #FFA7A7;
+            transition: 0.1s;
+        }
+
+        /* 专题左右布局 */
+        .split-layout {
+            display: flex;
+            gap: 1.8rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        .topic-tree {
+            flex: 1.2;
+            min-width: 260px;
+            padding: 1rem;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        .topic-detail {
+            flex: 2.5;
+            padding: 1.4rem 1.6rem;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        .tree-category {
+            margin-bottom: 1rem;
+        }
+        .cat-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 0.5rem 0.8rem;
+            background: #fff5f5;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            color: #bb7878;
+        }
+        .cat-title i {
+            font-size: 0.8rem;
+            transition: transform 0.2s;
+        }
+        .sub-items {
+            margin-left: 1rem;
+            margin-top: 0.5rem;
+            display: none;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .sub-items.show {
+            display: flex;
+        }
+        .topic-link {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.15s;
+            color: #9c6e6e;
+        }
+        .topic-link:hover {
+            background: #ffecec;
+            color: #FFA7A7;
+        }
+        .topic-link.active {
+            background: #FFA7A7;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 4px 8px #ffcfcf;
+        }
+        .detail-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #cc8888;
+            border-left: 5px solid #FFA7A7;
+            padding-left: 0.8rem;
+        }
+        .detail-content {
+            font-size: 0.9rem;
+            color: #765a5a;
+            line-height: 1.6;
+        }
+        .detail-content h4 {
+            color: #d89494;
+            margin: 0.8rem 0 0.3rem;
+        }
+
+        /* 模考板块 */
+        .exam-section {
+            margin-top: 1rem;
+        }
+        .exam-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .exam-btn {
+            background: white;
+            border: 1px solid #FFD0D0;
+            padding: 0.6rem 1.2rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #cc8888;
+            font-weight: 500;
+        }
+        .exam-btn.active {
+            background: #FFA7A7;
+            color: white;
+            border-color: #FFA7A7;
+            box-shadow: 0 4px 12px #ffcfcf;
+        }
+        .exam-paper {
+            padding: 1.5rem;
+        }
+        .question-block {
+            margin-bottom: 1.5rem;
+        }
+        .question-block h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: #cf8e8e;
+        }
+        .question-list {
+            list-style: none;
+        }
+        .question-list li {
+            padding: 0.4rem 0;
+            border-bottom: 1px dashed #ffe2e2;
+            color: #7e5e5e;
+        }
+
+        footer {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #e2b3b3;
+            border-top: 1px solid #ffe2e2;
+            padding-top: 1.5rem;
+        }
+
+        @media (max-width: 800px) {
+            .split-layout {
+                flex-direction: column;
+            }
+            .hot-grid {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="hero">
+        <div class="hero-main">
+            <h1 class="hero-title">WW CommHub</h1>
+        </div>
+        <p class="hero-subtitle">时间轴规划 · 专业课资料 · 专题练习 · 热点实时 · 全真模考</p>
+    </div>
+
+    <!-- 时间轴 -->
+    <div class="timeline-steps">
+        <div class="step-item" onclick="openTodoModal('3-5')"><div class="step-date">3月-5月</div><div class="step-title">基础建构</div><div class="step-desc">通读教材 · 建立知识地图</div></div>
+        <div class="step-item" onclick="openTodoModal('6-8')"><div class="step-date">6月-8月</div><div class="step-title">强化专题</div><div class="step-desc">网传/马新观/媒融专题精讲</div></div>
+        <div class="step-item" onclick="openTodoModal('9-10')"><div class="step-date">9月-10月</div><div class="step-title">论述实务</div><div class="step-desc">真题训练 · 热点论文拓展</div></div>
+        <div class="step-item" onclick="openTodoModal('11-12')"><div class="step-date">11月-12月</div><div class="step-title">冲刺模考</div><div class="step-desc">全真模拟 · 复盘押题</div></div>
+    </div>
+    
+    <!-- 待办事项管理模态框 -->
+    <div id="todoModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5);">
+        <div class="modal-content" style="background-color: #fff; margin: 5% auto; padding: 20px; border: 1px solid #FFD0D0; border-radius: 12px; width: 90%; max-width: 800px; max-height: 80vh; overflow-y: auto;">
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="color: #d89494; margin: 0;"><i class="fas fa-calendar-check"></i> 待办事项管理</h2>
+                <button onclick="closeTodoModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #d89494;">&times;</button>
+            </div>
+            
+            <!-- 日历导航 -->
+            <div class="calendar-nav" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <button onclick="changeMonth(-1)" class="btn-outline">← 上个月</button>
+                <h3 id="currentMonth" style="margin: 0; color: #d89494;"></h3>
+                <button onclick="changeMonth(1)" class="btn-outline">下个月 →</button>
+            </div>
+            
+            <!-- 日历网格 -->
+            <div class="calendar-grid" id="calendarGrid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-bottom: 20px;">
+                <!-- 日历单元格将动态生成 -->
+            </div>
+            
+            <!-- 待办事项列表 -->
+            <div class="todo-list-section">
+                <h3 style="color: #d89494; margin-bottom: 10px;"><i class="fas fa-tasks"></i> 今日待办</h3>
+                <div id="todoList" style="background: #fef7f7; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                    <!-- 待办事项将动态生成 -->
+                </div>
+                
+                <!-- 添加待办事项表单 -->
+                <div class="add-todo" style="margin-top: 20px;">
+                    <h4 style="color: #d89494; margin-bottom: 10px;">添加待办事项</h4>
+                    <input type="text" id="todoTitle" placeholder="输入待办事项" style="width: 100%; padding: 10px; border: 1px solid #FFD0D0; border-radius: 8px; margin-bottom: 10px; box-sizing: border-box;">
+                    <textarea id="todoDescription" placeholder="添加描述（可选）" style="width: 100%; padding: 10px; border: 1px solid #FFD0D0; border-radius: 8px; margin-bottom: 10px; box-sizing: border-box; resize: vertical; min-height: 80px;"></textarea>
+                    <input type="time" id="todoTime" style="padding: 8px; border: 1px solid #FFD0D0; border-radius: 8px; margin-right: 10px;">
+                    <button onclick="addTodo()" class="btn" style="background: #FFA7A7; color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer;">添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 专业课资料 -->
+    <div class="subject-grid">
+        <div class="subject-card">
+            <div class="subject-icon"><i class="fas fa-share-alt"></i></div>
+            <h3>传播学</h3>
+            <p>范式与流派、大众传播效果</p>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem;">
+                <button class="btn-outline" onclick="window.open('https://book.douban.com/subject/6101583/', '_blank')">郭庆光《传播学教程》</button>
+                <button class="btn-outline" onclick="window.open('https://book.douban.com/subject/3016590/', '_blank')">刘海龙《范式与流派》</button>
+                <button class="btn-outline" onclick="window.open('https://book.douban.com/subject/36540190/', '_blank')">彭兰《网络传播概论》</button>
+            </div>
+        </div>
+        <div class="subject-card">
+            <div class="subject-icon"><i class="fas fa-pen-fancy"></i></div>
+            <h3>新闻学</h3>
+            <p>新闻理论、马新观、伦理法规</p>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem;">
+                <button class="btn-outline" onclick="window.open('https://book.douban.com/subject/36494720/', '_blank')">李良荣《新闻学概论》</button>
+                <button class="btn-outline" onclick="window.open('https://www.flowus.cn/baochang/share/a2afb80c-b795-41b5-91f3-14ea65c8ec96', '_blank')">马工程《新闻学概论》</button>
+            </div>
+        </div>
+        <div class="subject-card">
+            <div class="subject-icon"><i class="fas fa-history"></i></div>
+            <h3>中外新闻史</h3>
+            <p>从《察世俗》到数字化转型</p>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem;">
+                <button class="btn-outline" onclick="window.open('https://book.douban.com/subject/36872427/', '_blank')">方汉奇《中国新闻传播史》</button>
+                <button class="btn-outline" onclick="window.open('https://book.douban.com/subject/1027930/', '_blank')">郑超然《外国新闻传播史》</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 热点案例板块（实时热搜 API） -->
+    <div class="hot-section">
+        <div class="section-title"><i class="fas fa-fire"></i> 热点案例 · 实时热搜榜</div>
+        <div class="hot-grid">
+            <div class="hot-card"><h3><i class="fab fa-weibo"></i> 微博热搜</h3><ul id="weibo-hotlist" class="hot-list"><li>✨ 加载中...</li></ul></div>
+            <div class="hot-card"><h3><i class="fab fa-tiktok"></i> 抖音热搜</h3><ul id="tiktok-hotlist" class="hot-list"><li>🌸 加载中...</li></ul></div>
+            <div class="hot-card"><h3><i class="fas fa-heart"></i> 小红书热搜</h3><ul id="xiaohongshu-hotlist" class="hot-list"><li>🍬 加载中...</li></ul></div>
+        </div>
+    </div>
+    
+    <!-- 文章库模块 -->
+    <div class="hot-section">
+        <div class="section-title"><i class="fas fa-book"></i> 文章库 · 精选资料</div>
+        
+        <!-- 用户切换 -->
+        <div class="user-switch" style="margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem;">
+            <label style="color: #d89494;">用户名：</label>
+            <input type="text" id="username" placeholder="输入用户名" style="padding: 0.5rem; border: 1px solid #FFD0D0; border-radius: 8px; flex: 1;" value="默认用户">
+            <button onclick="switchUser()" class="btn-outline">切换用户</button>
+        </div>
+        
+        <!-- 文章库内容 -->
+        <div class="article-library" style="background: white; border-radius: 16px; padding: 1.5rem; box-shadow: 0 12px 28px -8px rgba(255, 167, 167, 0.2); border: 1px solid #fff0f0;">
+            <!-- 添加文章表单 -->
+            <div class="add-article" style="margin-bottom: 2rem; padding: 1.5rem; background: #fef7f7; border-radius: 12px;">
+                <h4 style="color: #d89494; margin-bottom: 1rem;">📄 添加文章或上传文件</h4>
+                
+                <div style="margin-bottom: 1rem;">
+                    <input type="text" id="articleTitle" placeholder="文章标题" style="width: 100%; padding: 0.8rem; border: 1px solid #FFD0D0; border-radius: 8px; margin-bottom: 0.8rem; box-sizing: border-box;">
+                    <input type="url" id="articleUrl" placeholder="文章链接" style="width: 100%; padding: 0.8rem; border: 1px solid #FFD0D0; border-radius: 8px; margin-bottom: 0.8rem; box-sizing: border-box;">
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; color: #d89494;">或上传文件：</label>
+                    <input type="file" id="articleFile" accept=".pdf,.doc,.docx" style="margin-bottom: 0.8rem;">
+                </div>
+                
+                <button onclick="addArticle()" class="btn" style="background: #FFA7A7; color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; cursor: pointer;">添加到文章库</button>
+            </div>
+            
+            <!-- 文章列表 -->
+            <div class="article-list" id="articleList">
+                <!-- 文章将动态生成 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 专题练习（树形目录） -->
+    <div class="section-title">
+        <i class="fas fa-layer-group"></i> 专题练习 · 高频考点
+        <button class="btn-outline" style="float: right; font-size: 0.8rem; margin-left: 1rem;" onclick="openTopicEditModal()">
+            ✏️ 编辑栏目
+        </button>
+    </div>
+    <div class="split-layout">
+        <div class="topic-tree" id="topicTree"></div>
+        <div class="topic-detail" id="topicDetailPanel">
+            <div class="detail-title">💗 人工智能技术 · 核心透视</div>
+            <div class="detail-content">
+                <p><strong>机遇</strong>：机器人写作、个性化推荐、AI主播解放人力；<br>
+                <strong>挑战</strong>：算法偏见、信息茧房、深度伪造冲击真实性。<br>
+                <strong>案例</strong>：新华社AI合成主播、Sora文生视频模型。<br>
+                <strong>伦理对策</strong>：人机协同+算法透明+智媒素养提升。</p>
+                <p>🌸 点击左侧粉色专题，解锁详细笔记~</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 专题编辑模态框 -->
+    <div id="topicEditModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5);">
+        <div class="modal-content" style="background-color: #fff; margin: 5% auto; padding: 20px; border: 1px solid #FFD0D0; border-radius: 12px; width: 90%; max-width: 800px; max-height: 80vh; overflow-y: auto;">
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="color: #d89494; margin: 0;"><i class="fas fa-edit"></i> 编辑专题栏目</h2>
+                <button onclick="closeTopicEditModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #d89494;">&times;</button>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <h3 style="color: #d89494; margin-bottom: 10px;">添加新分类</h3>
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <input type="text" id="newCategoryName" placeholder="分类名称" style="flex: 1; padding: 8px; border: 1px solid #FFD0D0; border-radius: 8px;">
+                    <input type="text" id="newCategoryIcon" placeholder="图标类名 (如 fas fa-fire)" style="flex: 1; padding: 8px; border: 1px solid #FFD0D0; border-radius: 8px;">
+                    <button onclick="addCategory()" class="btn" style="background: #FFA7A7; color: white; border: none; padding: 0 15px; border-radius: 8px; cursor: pointer;">添加分类</button>
+                </div>
+                
+                <h3 style="color: #d89494; margin-bottom: 10px;">添加子专题</h3>
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <select id="categorySelect" style="flex: 1; padding: 8px; border: 1px solid #FFD0D0; border-radius: 8px;">
+                        <!-- 分类选项将动态生成 -->
+                    </select>
+                    <input type="text" id="newTopicName" placeholder="专题名称" style="flex: 1; padding: 8px; border: 1px solid #FFD0D0; border-radius: 8px;">
+                    <button onclick="addTopic()" class="btn" style="background: #FFA7A7; color: white; border: none; padding: 0 15px; border-radius: 8px; cursor: pointer;">添加专题</button>
+                </div>
+                
+                <h3 style="color: #d89494; margin-bottom: 10px;">删除分类/专题</h3>
+                <div style="display: flex; gap: 10px;">
+                    <select id="deleteSelect" style="flex: 1; padding: 8px; border: 1px solid #FFD0D0; border-radius: 8px;">
+                        <!-- 删除选项将动态生成 -->
+                    </select>
+                    <button onclick="deleteTopicItem()" class="btn" style="background: #ff6b81; color: white; border: none; padding: 0 15px; border-radius: 8px; cursor: pointer;">删除</button>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button onclick="saveTopicChanges()" class="btn" style="background: #FFA7A7; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-right: 10px;">保存更改</button>
+                <button onclick="closeTopicEditModal()" class="btn-outline">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模拟考试模块（三次模考） -->
+    <div class="exam-section">
+        <div class="section-title">
+            <i class="fas fa-pen-ruler"></i> 模拟考场 · 全真演练
+            <button class="btn-outline" style="float: right; font-size: 0.8rem; margin-left: 1rem;" onclick="openExamEditModal()">
+                ✏️ 编辑模考
+            </button>
+        </div>
+        <div class="exam-buttons" id="examTabButtons">
+            <button class="exam-btn active" data-exam="1">📖 10月基础检测</button>
+            <button class="exam-btn" data-exam="2">🔥 11月热点检测</button>
+            <button class="exam-btn" data-exam="3">🎯 12月全真模拟</button>
+        </div>
+        <div class="exam-paper" id="examPaperContainer">
+            <!-- 动态加载试卷 -->
+        </div>
+    </div>
+    
+    <!-- 模考编辑模态框 -->
+    <div id="examEditModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5);">
+        <div class="modal-content" style="background-color: #fff; margin: 5% auto; padding: 20px; border: 1px solid #FFD0D0; border-radius: 12px; width: 90%; max-width: 800px; max-height: 80vh; overflow-y: auto;">
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="color: #d89494; margin: 0;"><i class="fas fa-edit"></i> 编辑模拟考试</h2>
+                <button onclick="closeExamEditModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #d89494;">&times;</button>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <h3 style="color: #d89494; margin-bottom: 10px;">选择模考卷</h3>
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <select id="examSelect" style="flex: 1; padding: 8px; border: 1px solid #FFD0D0; border-radius: 8px;">
+                        <option value="1">10月基础检测卷</option>
+                        <option value="2">11月热点检测卷</option>
+                        <option value="3">12月全真模拟卷</option>
+                    </select>
+                    <button onclick="addNewExam()" class="btn" style="background: #FFA7A7; color: white; border: none; padding: 0 15px; border-radius: 8px; cursor: pointer;">
+                        ➕ 添加新模考
+                    </button>
+                    <button onclick="deleteCurrentExam()" class="btn" style="background: #ff6b81; color: white; border: none; padding: 0 15px; border-radius: 8px; cursor: pointer;">
+                        🗑️ 删除此模考
+                    </button>
+                </div>
+                
+                <h3 style="color: #d89494; margin-bottom: 10px;">编辑模考信息</h3>
+                <input type="text" id="examName" placeholder="模考名称" style="width: 100%; padding: 8px; border: 1px solid #FFD0D0; border-radius: 8px; margin-bottom: 10px;">
+                
+                <h3 style="color: #d89494; margin-bottom: 10px;">名词解释（4题）</h3>
+                <div id="mcQuestions" style="margin-bottom: 15px;">
+                    <!-- 名词解释题目将动态生成 -->
+                </div>
+                
+                <h3 style="color: #d89494; margin-bottom: 10px;">简答题（6题）</h3>
+                <div id="saQuestions" style="margin-bottom: 15px;">
+                    <!-- 简答题题目将动态生成 -->
+                </div>
+                
+                <h3 style="color: #d89494; margin-bottom: 10px;">论述题（2题）</h3>
+                <div id="essayQuestions" style="margin-bottom: 15px;">
+                    <!-- 论述题题目将动态生成 -->
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button onclick="saveExamChanges()" class="btn" style="background: #FFA7A7; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-right: 10px;">保存更改</button>
+                <button onclick="closeExamEditModal()" class="btn-outline">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 资料管理模块 -->
+    <div class="exam-section">
+        <div class="section-title"><i class="fas fa-folder-open"></i> 资料管理 · 上传与预览</div>
+        <div class="upload-container" style="margin: 1rem 0; padding: 1.5rem; background: #fef7f7; border-radius: 12px; border: 2px dashed #ffb3ba;">
+            <h4 style="margin-top: 0; color: #d89494;">📁 上传资料</h4>
+            <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">支持 PDF、Word、Excel、图片等文件，会保存在本地</p>
+            <input type="file" id="fileUpload" multiple style="margin-bottom: 1rem;" />
+            <button class="btn" onclick="uploadFiles()" style="background: #ff6b81; color: white; border: none;">🚀 开始上传</button>
+        </div>
+        <div class="files-container" id="filesContainer">
+            <!-- 动态显示上传的文件 -->
+            <p style="color: #666; text-align: center; padding: 2rem;">📂 暂无上传文件</p>
+        </div>
+    </div>
+
+    <footer>
+        <div>发呆大王ww | 新传考研 | 我们翻山越岭过春天 💕</div>
+        <div style="font-size: 0.8rem; color: #999; margin-top: 0.5rem;">风险提示：资料储存于本地浏览器，更换设备或清理浏览器数据可能造成资料遗失，出现此类情况本网站概不负责。</div>
+    </footer>
+</div>
+
+<script>
+    // ---------- 1. 热点API调用（60s 热搜服务）----------
+    const API_BASE = "https://60s.viki.moe"; // 公共API地址，确保所有用户可访问
+    
+    // 获取热搜榜单
+    async function fetchHotList(type, elementId, limit=10) {
+        // 为不同平台设置多个可能的路径
+        const possiblePaths = {
+            weibo: [
+                '/v2/weibo',       // 微博直接路径（用户尝试的）
+                '/weibo',           // 不带版本号
+                '/v2/hot/weibo',    // 带hot前缀
+                '/hot/weibo'        // 不带版本号但带hot前缀
+            ],
+            tiktok: [
+                '/v2/douyin',       // 抖音直接路径（用户尝试的）
+                '/douyin',          // 不带版本号
+                '/v2/hot/douyin',   // 带hot前缀
+                '/hot/douyin'       // 不带版本号但带hot前缀
+            ],
+            xiaohongshu: [
+                '/v2/rednote',      // 小红书特殊路径
+                '/rednote',         // 不带版本号
+                '/v2/hot/xiaohongshu', // 带hot前缀
+                '/hot/xiaohongshu'  // 不带版本号但带hot前缀
+            ]
+        };
+        
+        const container = document.getElementById(elementId);
+        if(!container) return;
+        
+        let success = false;
+        
+        for (const path of possiblePaths[type]) {
+            try {
+                const apiUrl = `${API_BASE}${path}`;
+                console.log(`尝试获取${type}热搜，路径: ${path}`);
+                
+                const res = await fetch(apiUrl);
+                
+                if(!res.ok) {
+                    console.log(`路径 ${path} 响应状态: ${res.status}`);
+                    continue;
+                }
+                
+                const data = await res.json();
+                console.log(`获取${type}热搜成功，数据:`, data);
+                
+                let items = [];
+                if(data && data.data && Array.isArray(data.data)) {
+                    items = data.data.slice(0, limit);
+                } else if(Array.isArray(data)) {
+                    items = data.slice(0, limit);
+                } else {
+                    items = ['✨ 暂无数据'];
+                }
+                
+                container.innerHTML = items.map((item, index) => {
+                    let content = '';
+                    if(typeof item === 'string') {
+                        content = item;
+                    } else if(item.title) {
+                        content = item.title;
+                    } else if(item.name) {
+                        content = item.name;
+                    } else if(item.text) {
+                        content = item.text;
+                    } else {
+                        content = JSON.stringify(item);
+                    }
+                    return `<li>🍬 ${index + 1}. ${content}</li>`;
+                }).join('');
+                
+                success = true;
+                break;
+                
+            } catch(err) {
+                console.error(`路径 ${path} 获取${type}热搜失败:`, err);
+            }
+        }
+        
+        if(!success) {
+            container.innerHTML = '<li>💗 热搜服务暂时不可用</li>';
+        }
+    }
+
+    // 初始加载热搜
+    function loadAllHotLists() {
+        fetchHotList('weibo', 'weibo-hotlist');
+        fetchHotList('tiktok', 'tiktok-hotlist');
+        fetchHotList('xiaohongshu', 'xiaohongshu-hotlist');
+    }
+    
+    loadAllHotLists();
+    
+    // 每5分钟自动更新热搜
+    setInterval(loadAllHotLists, 300000); // 300000 毫秒 = 5 分钟
+
+    // ---------- 2. 专题树（基于原文档分类）----------
+    const topicCategories = [
+        { name: "🔥 热门新技术专题", icon: "fas fa-microchip", children: ["人工智能技术【重中之重】", "算法与大数据", "VR/AR与伦理法规", "5G技术", "区块链技术"] },
+        { name: "📺 网络视听媒体专题", icon: "fas fa-video", children: ["短视频", "网络直播", "电商直播", "视听媒体与媒介", "知识付费"] },
+        { name: "🌐 互联网文化专题", icon: "fas fa-users", children: ["媒介与文化", "梗文化与模因理论", "粉丝/饭圈文化"] },
+        { name: "📡 媒体融合专题", icon: "fas fa-tv", children: ["媒体融合十年发展", "全媒体传播体系", "智能媒体", "媒介化治理", "主流媒体系统性变革"] },
+        { name: "📰 马新观与舆论专题", icon: "fas fa-landmark", children: ["马新观的本土化", "马克思主义舆论观", "舆论专题"] },
+        { name: "🌍 国际传播与跨文化", icon: "fas fa-globe", children: ["国际传播困境与对策", "讲好中国故事", "跨文化传播","ChinaTravel案例"] },
+        { name: "⚖️ 媒介伦理与职业道德", icon: "fas fa-balance-scale", children: ["虚假新闻", "新黄色新闻", "泛娱乐化", "媒介审判", "灾难新闻人文关怀", "反转新闻"] }
+    ];
+    const knowledgeBase = {
+        "人工智能技术【重中之重】": "<h4>🤖 智能传播浪潮</h4><p><strong>机遇</strong>：自动化生产、AI主播、精准分发；<strong>挑战</strong>：算法黑箱、隐私让渡、深度伪造；<strong>治理</strong>：人机共生、算法透明、媒介素养提升。</p><p>✨ 案例：央视AI《千秋诗颂》、新华社“新小微”。</p>",
+        "算法与大数据": "<h4>📊 算法推荐与数据伦理</h4><p>信息茧房、回音室效应，大数据新闻提升预测性，但也存在数字鸿沟。治理路径：党媒算法+《数据安全法》。</p>",
+        "VR/AR与伦理法规": "<h4>🥽 沉浸式新闻伦理</h4><p>VR新闻带来沉浸感，但同时可能扭曲认知，造成“缸中大脑”风险，需坚持真实性原则。</p>",
+        "5G技术": "<h4>⚡ 5G驱动万物皆媒</h4><p>高速率低延迟推动超高清直播、全息采访，媒体融合纵深发展，案例：5G+4K两会直播。</p>",
+        "区块链技术": "<h4>🔗 区块链赋能新闻</h4><p>打击虚假新闻、版权保护，局限性：不可篡改导致错误信息难以删除。</p>",
+        "短视频": "<h4>🎬 短视频生态与治理</h4><p>碎片化传播、UGC爆发，乱象：泛娱乐化、侵权。主流媒体入局（主播说联播），平台强化审核。</p>",
+        "网络直播": "<h4>📹 直播带货与情感经济</h4><p>互动仪式链下的粉丝打赏，存在低俗炒作。助农直播成为乡村振兴新力量。</p>",
+        "电商直播": "<h4>🛒 媒体+MCN变现</h4><p>广电跨界融合，直播助农，但需警惕马太效应与售后问题。</p>",
+        "视听媒体与媒介": "<h4>📺 智媒时代视听转向</h4><p>人机协作、全息传播，电视向智能中枢演化，注重科技诗性与人文关怀。</p>",
+        "知识付费": "<h4>💰 知识经济与内容变现</h4><p>得到、喜马拉雅等平台，用户为认知提升买单，困境：同质化、版权争议。</p>",
+        "媒介与文化": "<h4>🎭 参与式文化</h4><p>亨利·詹金斯文本盗猎，弹幕与二创，主流媒体借助亚文化破圈。</p>",
+        "梗文化与模因理论": "<h4>🧬 模因传播 & 梗的狂欢</h4><p>道金斯模因论，网络热梗病毒扩散，促进圈层认同也可能消解严肃议题。</p>",
+        "粉丝/饭圈文化": "<h4>⭐ 饭圈治理</h4><p>倒奶事件、清朗行动，引导粉丝理性追星，强化偶像社会责任。</p>",
+        "媒体融合十年发展": "<h4>🔄 深融时代</h4><p>四全媒体建设，县级融媒体中心，系统性变革路径。</p>",
+        "全媒体传播体系": "<h4>🏛️ 全媒体新格局</h4><p>全程全息全员全效，打造新型主流媒体，智媒技术驱动。</p>",
+        "智能媒体": "<h4>🧠 智媒与社会治理</h4><p>人工智能赋能媒体，推进智慧城市、舆情预警，乡村振兴。</p>",
+        "媒介化治理": "<h4>🏘️ 媒介作为治理枢纽</h4><p>主流媒体参与乡村振兴、风险沟通，构建媒介化治理共同体。</p>",
+        "主流媒体系统性变革": "<h4>🔄 深水区变革逻辑</h4><p>政策引领，技术驱动，组织架构轻量化，评价体系迭代。</p>",
+        "马新观的本土化": "<h4>📖 党性人民性统一</h4><p>坚持马克思主义新闻观，政治家办报，四力，新时代舆论引导48字方针。</p>",
+        "马克思主义舆论观": "<h4>📢 舆论引导四力</h4><p>传播力、引导力、影响力、公信力，构建网上网下一体主流舆论格局。</p>",
+        "舆论专题": "<h4>🗣️ 舆论引导与监督</h4><p>后真相挑战，主流媒体提升议程设置，正面宣传与舆论监督统一。</p>",
+        "国际传播困境与对策": "<h4>🌏 讲好中国故事</h4><p>克服文化折扣，构建人类命运共同体，短视频出海、CGTN旗舰。</p>",
+        "讲好中国故事": "<h4>📚 叙事创新</h4><p>微观视角、共情传播，李子柒、《逃出大英博物馆》案例。</p>",
+        "跨文化传播": "<h4>🪶 降低文化折扣</h4><p>霍夫斯泰德维度理论，通过共情符号实现跨文化对话。</p>",
+        "ChinaTravel案例": "<h4>✈️ 入境游爆火逻辑</h4><p>免签政策+自媒体纪实，打破西方滤镜，展现真实中国。</p>",
+        "虚假新闻": "<h4>🚫 事实核查机制</h4><p>CGTN袁隆平事件警示，区块链溯源+平台审核。</p>",
+        "新黄色新闻": "<h4>⚠️ 流量至上的低级红</h4><p>要素缺失、自导自演（秦朗丢作业），危害媒体公信力。</p>",
+        "泛娱乐化": "<h4>🎢 娱乐至死风险</h4><p>尼尔·波兹曼警示，主流媒体需把握分寸，灾难报道严禁娱乐化。</p>",
+        "媒介审判": "<h4>⚖️ 舆论 vs 司法独立</h4><p>于欢案反思，媒体应遵循“书记员意识”，不超越司法判决。</p>",
+        "灾难新闻人文关怀": "<h4>🕯️ 伦理底线与温度</h4><p>MU5735报道伦理：尊重遇难者家属，避免二次伤害。</p>",
+        "反转新闻": "<h4>🔄 真相过程性</h4><p>成都49中事件，抢发新闻导致反转，媒体需核验制度。</p>",
+        "计算宣传": "<h4>🤖 社交机器人操纵舆论</h4><p>AI水军制造虚假同意，加剧政治极化，全球治理需平台标识。</p>",
+        "城市传播": "<h4>🏙️ 品牌与意象建构</h4><p>淄博、哈尔滨出圈逻辑：媒介事件+全民参与。</p>",
+        "健康传播": "<h4>🏥 风险沟通与科普</h4><p>新冠信息疫情，健康类短视频辟谣，提升公众健康素养。</p>",
+        "数据新闻": "<h4>📉 可视化叙事</h4><p>财新数据新闻，优势直观揭示规律，挑战数据素养。</p>",
+        "建设性新闻": "<h4>🌱 积极心理学视角</h4><p>解困式报道，中国正面宣传与建设性新闻耦合。</p>",
+        "后真相": "<h4>😤 情感超越事实</h4><p>脱欧/特朗普现象，主流媒体真相还原，公众批判思维。</p>",
+        "谣言与网络谣言": "<h4>📣 奥尔波特公式</h4><p>重要性×暧昧性，重大公共卫生事件中“信息疫情”治理。</p>",
+        "网络暴力": "<h4>🛡️ 反网暴机制</h4><p>粉发女孩悲剧，清朗行动，平台一键防护。</p>",
+        "媒介素养": "<h4>🎓 数字时代新素养</h4><p>信息辨别、算法素养、数字反哺。</p>",
+        "数字劳工/数字玩工": "<h4>💻 受众商品论延伸</h4><p>用户无偿生产内容，被平台剥削，呼吁劳动权益保障。</p>"
+    };
+    function getDefaultContent(topic) {
+        return `<h4>📖 ${topic}</h4><p>该专题详细笔记包含核心概念、案例及对策，请参考完整版文档。🌸 继续努力~</p>`;
+    }
+    function buildTree() {
+        const container = document.getElementById('topicTree');
+        if(!container) return;
+        container.innerHTML = '';
+        topicCategories.forEach(cat => {
+            const catDiv = document.createElement('div'); catDiv.className = 'tree-category';
+            const titleDiv = document.createElement('div'); titleDiv.className = 'cat-title';
+            titleDiv.innerHTML = `<i class="${cat.icon}"></i> ${cat.name} <i class="fas fa-chevron-down" style="margin-left:auto; font-size:12px;"></i>`;
+            const subDiv = document.createElement('div'); subDiv.className = 'sub-items';
+            cat.children.forEach(child => {
+                const link = document.createElement('div'); link.className = 'topic-link'; link.textContent = child;
+                link.onclick = () => {
+                    document.querySelectorAll('.topic-link').forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    let content = knowledgeBase[child] || getDefaultContent(child);
+                    const detailPanel = document.getElementById('topicDetailPanel');
+                    detailPanel.innerHTML = `
+                        <div class="detail-title">
+                            📘 ${child}
+                            <button class="btn-outline" style="float: right; font-size: 0.7rem;" onclick="toggleEditMode('${child}')">
+                                ✏️ 编辑
+                            </button>
+                        </div>
+                        <div class="detail-content" id="topicContent_${child.replace(/[^a-zA-Z0-9]/g, '_')}">
+                            ${content}
+                        </div>
+                    `;
+                };
+                subDiv.appendChild(link);
+            });
+            titleDiv.onclick = () => subDiv.classList.toggle('show');
+            catDiv.appendChild(titleDiv); catDiv.appendChild(subDiv);
+            container.appendChild(catDiv);
+        });
+        const firstLink = document.querySelector('.topic-link');
+        if(firstLink) firstLink.click();
+    }
+    buildTree();
+
+    // ---------- 3. 三次模考试卷（严格4名词+6简答+2论述）----------
+    let currentExam = 1;
+    
+    // 从localStorage加载模考数据
+    let examsData = JSON.parse(localStorage.getItem('examsData') || JSON.stringify({
+        1: {
+            name: "10月基础检测卷",
+            mc: ["新闻价值", "媒介融合", "拟态环境", "数据新闻"],
+            sa: [
+                "简述新闻真实与新闻事实的关系。",
+                "简析议程设置理论的基本内涵。",
+                "简述“使用与满足”理论。",
+                "简述新闻评论的基本功能。",
+                "简述社交媒体环境下的传播特征。",
+                "简述舆论监督与正面宣传的关系。"
+            ],
+            essay: [
+                "结合当前媒介环境，论述新闻专业主义在社交媒体时代的坚守与发展。",
+                "论述大数据技术对新闻生产与传播带来的变革及其伦理问题。"
+            ]
+        },
+        2: {
+            name: "11月热点检测卷",
+            mc: ["AIGC", "数字分身", "深度伪造", "人机协同"],
+            sa: [
+                "简述人工智能对新闻生产流程的重塑。",
+                "简析“信息茧房”效应及其破解路径。",
+                "简述后真相时代的舆论特征与引导策略。",
+                "简述城市传播的主流叙事转变。",
+                "简述“清朗”系列专项行动的意义。",
+                "简述社交机器人在舆论场中的角色与影响。"
+            ],
+            essay: [
+                "结合案例，论述智能传播时代的算法治理与伦理反思。",
+                "从讲好中国故事的角度，论述如何利用“China Travel”热潮做好城市形象的国际传播。"
+            ]
+        },
+        3: {
+            name: "12月全真模拟卷",
+            mc: ["建设性新闻", "可供性", "圈层传播", "零工经济"],
+            sa: [
+                "简述饭圈文化的特征、成因及其治理路径。",
+                "简析“新闻游戏”的叙事特点与传播效果。",
+                "简述主流媒体系统性变革的必要性与实施路径。",
+                "简述“硬新闻”与“软新闻”在新媒体环境下的边界消融。",
+                "简述“数字劳工”的内涵及其批判视角。",
+                "简述“媒介事件”的构建机制与传播功能。"
+            ],
+            essay: [
+                "结合具体案例，分析2025-2026年度重大突发公共事件中的媒介伦理问题与应对策略。",
+                "谈谈你对全媒体传播体系建设的理解，以及县级融媒体中心在其中的角色与创新实践。"
+            ]
+        }
+    }));
+
+    function renderExamPaper(examId) {
+        const data = examsData[examId];
+        if(!data) return;
+        const html = `
+            <h3 style="margin-bottom: 1rem; color:#d89494;">🌸 ${data.name} （总分150分）</h3>
+            <div class="question-block">
+                <h4>一、名词解释（每题5分，共20分）</h4>
+                <ul class="question-list">${data.mc.map(q => `<li>📖 ${q}</li>`).join('')}</ul>
+            </div>
+            <div class="question-block">
+                <h4>二、简答题（每题15分，共90分）</h4>
+                <ul class="question-list">${data.sa.map(q => `<li>✏️ ${q}</li>`).join('')}</ul>
+            </div>
+            <div class="question-block">
+                <h4>三、论述题（每题20分，共40分）</h4>
+                <ul class="question-list">${data.essay.map(q => `<li>💬 ${q}</li>`).join('')}</ul>
+            </div>
+            <button class="btn-outline" style="margin-top:1rem;" onclick="alert('📝 模考建议：闭卷限时180分钟，可自备答题纸。答案对照可参考专题笔记。✨ 愿你下笔有神~')">✍️ 开始考试（限时模拟）</button>
+        `;
+        document.getElementById('examPaperContainer').innerHTML = html;
+    }
+
+    // 更新模考按钮
+    updateExamButtons();
+    
+    // 渲染第一份试卷
+    renderExamPaper(1);
+
+    // 专题内容编辑功能
+    function toggleEditMode(topic) {
+        const contentId = `topicContent_${topic.replace(/[^a-zA-Z0-9]/g, '_')}`;
+        const contentElement = document.getElementById(contentId);
+        const detailPanel = document.getElementById('topicDetailPanel');
+        const isEditing = contentElement.getAttribute('data-editing') === 'true';
+
+        if (isEditing) {
+            // 保存模式
+            const editor = document.getElementById(`editor_${contentId}`);
+            const newContent = editor.innerHTML;
+            
+            // 保存到本地存储
+            const savedContent = JSON.parse(localStorage.getItem('topicContent') || '{}');
+            savedContent[topic] = newContent;
+            localStorage.setItem('topicContent', JSON.stringify(savedContent));
+            
+            // 更新知识库
+            knowledgeBase[topic] = newContent;
+            
+            // 切换回显示模式
+            contentElement.innerHTML = newContent;
+            contentElement.setAttribute('data-editing', 'false');
+            
+            // 更新标题栏按钮
+            const titleElement = detailPanel.querySelector('.detail-title');
+            titleElement.innerHTML = `
+                📘 ${topic}
+                <button class="btn-outline" style="float: right; font-size: 0.7rem;" onclick="toggleEditMode('${topic}')">
+                    ✏️ 编辑
+                </button>
+            `;
+            
+            alert('✅ 内容已保存！');
+        } else {
+            // 编辑模式
+            const currentContent = contentElement.innerHTML;
+            contentElement.setAttribute('data-editing', 'true');
+            
+            // 切换到富文本编辑模式
+            contentElement.innerHTML = `
+                <div style="margin-bottom: 1rem;">
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.8rem; padding: 0.5rem; background: #fff5f5; border-radius: 12px;">
+                        <button class="btn-outline" onclick="formatText('bold')" title="粗体" style="font-size: 0.7rem; padding: 0.2rem 0.5rem;"><b>B</b></button>
+                        <button class="btn-outline" onclick="formatText('italic')" title="斜体" style="font-size: 0.7rem; padding: 0.2rem 0.5rem;"><i>I</i></button>
+                        <button class="btn-outline" onclick="formatText('underline')" title="下划线" style="font-size: 0.7rem; padding: 0.2rem 0.5rem;"><u>U</u></button>
+                        <button class="btn-outline" id="formatBrushBtn" onclick="toggleFormatBrush()" title="格式刷" style="font-size: 0.7rem; padding: 0.2rem 0.5rem;">🎨</button>
+                        <select onchange="changeFontSize(this.value)" style="padding: 0.2rem 0.5rem; border: 1px solid #FFD0D0; border-radius: 8px; font-size: 0.7rem;">
+                            <option value="">字号</option>
+                            <option value="12px">12px</option>
+                            <option value="14px">14px</option>
+                            <option value="16px">16px</option>
+                            <option value="18px">18px</option>
+                            <option value="20px">20px</option>
+                            <option value="24px">24px</option>
+                            <option value="28px">28px</option>
+                        </select>
+                        <div style="display: flex; gap: 0.3rem; align-items: center;">
+                            <span style="font-size: 0.65rem; color: #b57c7c;">颜色:</span>
+                            <button class="color-btn" onclick="changeTextColor('#FFA7A7')" style="background: #FFA7A7; border: 1px solid #FFD0D0; width: 20px; height: 20px; border-radius: 4px; cursor: pointer;"></button>
+                            <button class="color-btn" onclick="changeTextColor('#ff6b6b')" style="background: #ff6b6b; border: 1px solid #FFD0D0; width: 20px; height: 20px; border-radius: 4px; cursor: pointer;"></button>
+                            <button class="color-btn" onclick="changeTextColor('#4a3b3f')" style="background: #4a3b3f; border: 1px solid #FFD0D0; width: 20px; height: 20px; border-radius: 4px; cursor: pointer;"></button>
+                            <button class="color-btn" onclick="changeTextColor('#cc8888')" style="background: #cc8888; border: 1px solid #FFD0D0; width: 20px; height: 20px; border-radius: 4px; cursor: pointer;"></button>
+                            <button class="color-btn" onclick="changeTextColor('#16a34a')" style="background: #16a34a; border: 1px solid #FFD0D0; width: 20px; height: 20px; border-radius: 4px; cursor: pointer;"></button>
+                            <button class="color-btn" onclick="changeTextColor('#3b82f6')" style="background: #3b82f6; border: 1px solid #FFD0D0; width: 20px; height: 20px; border-radius: 4px; cursor: pointer;"></button>
+                            <button class="color-btn" onclick="changeTextColor('#8b5cf6')" style="background: #8b5cf6; border: 1px solid #FFD0D0; width: 20px; height: 20px; border-radius: 4px; cursor: pointer;"></button>
+                            <button class="color-btn" onclick="changeTextColor('#f59e0b')" style="background: #f59e0b; border: 1px solid #FFD0D0; width: 20px; height: 20px; border-radius: 4px; cursor: pointer;"></button>
+                            <input type="color" id="textColor" onchange="changeTextColor(this.value)" style="width: 24px; height: 24px; border: 1px solid #FFD0D0; border-radius: 4px; cursor: pointer; padding: 0;">
+                        </div>
+                        <button class="btn-outline" onclick="formatText('insertUnorderedList')" title="无序列表" style="font-size: 0.7rem; padding: 0.2rem 0.5rem;">•</button>
+                        <button class="btn-outline" onclick="formatText('justifyLeft')" title="左对齐" style="font-size: 0.7rem; padding: 0.2rem 0.5rem;">⬅️</button>
+                        <button class="btn-outline" onclick="formatText('justifyCenter')" title="居中" style="font-size: 0.7rem; padding: 0.2rem 0.5rem;">↔️</button>
+                        <button class="btn-outline" onclick="formatText('justifyRight')" title="右对齐" style="font-size: 0.7rem; padding: 0.2rem 0.5rem;">➡️</button>
+                    </div>
+                    <div id="editor_${contentId}" contenteditable="true" style="width: 100%; min-height: 250px; padding: 1rem; border: 1px solid #FFD0D0; border-radius: 16px; font-family: inherit; font-size: 14px; line-height: 1.5; overflow-y: auto; background: white;">
+                        ${currentContent}
+                    </div>
+                </div>
+                <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+                    <button class="btn-outline" onclick="toggleEditMode('${topic}')">💾 保存</button>
+                    <button class="btn-outline" onclick="cancelEdit('${topic}')">❌ 取消</button>
+                </div>
+            `;
+            
+            // 更新标题栏按钮
+            const titleElement = detailPanel.querySelector('.detail-title');
+            titleElement.innerHTML = `
+                📝 ${topic} (编辑模式)
+                <button class="btn-outline" style="float: right; font-size: 0.7rem;" onclick="toggleEditMode('${topic}')">
+                    💾 保存
+                </button>
+            `;
+            
+            // 聚焦编辑器
+            setTimeout(() => {
+                const editor = document.getElementById(`editor_${contentId}`);
+                if (editor) {
+                    editor.focus();
+                }
+            }, 100);
+        }
+    }
+
+    function cancelEdit(topic) {
+        const contentId = `topicContent_${topic.replace(/[^a-zA-Z0-9]/g, '_')}`;
+        const contentElement = document.getElementById(contentId);
+        const detailPanel = document.getElementById('topicDetailPanel');
+        
+        // 恢复原始内容
+        const originalContent = knowledgeBase[topic] || getDefaultContent(topic);
+        contentElement.innerHTML = originalContent;
+        contentElement.setAttribute('data-editing', 'false');
+        
+        // 更新标题栏按钮
+        const titleElement = detailPanel.querySelector('.detail-title');
+        titleElement.innerHTML = `
+            📘 ${topic}
+            <button class="btn-outline" style="float: right; font-size: 0.7rem;" onclick="toggleEditMode('${topic}')">
+                ✏️ 编辑
+            </button>
+        `;
+    }
+
+    // 富文本编辑辅助函数
+    let formatBrushActive = false;
+    let savedRange = null;
+    
+    function formatText(command) {
+        if(formatBrushActive && savedRange) {
+            restoreSelection();
+        }
+        document.execCommand(command, false, null);
+    }
+
+    function changeFontSize(size) {
+        if(!size) return;
+        if(formatBrushActive && savedRange) {
+            restoreSelection();
+        }
+        
+        // 清除现有字体大小样式
+        document.execCommand('removeFormat', false, null);
+        // 直接设置内联样式
+        const selection = window.getSelection();
+        if(selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            if(!range.collapsed) {
+                const span = document.createElement('span');
+                span.style.fontSize = size;
+                span.appendChild(range.extractContents());
+                range.insertNode(span);
+                
+                // 重新选择文本
+                const newRange = document.createRange();
+                newRange.selectNodeContents(span);
+                selection.removeAllRanges();
+                selection.addRange(newRange);
+            }
+        }
+    }
+
+    function changeTextColor(color) {
+        if(formatBrushActive && savedRange) {
+            restoreSelection();
+        }
+        document.execCommand('foreColor', false, color);
+    }
+
+    function toggleFormatBrush() {
+        formatBrushActive = !formatBrushActive;
+        const btn = document.getElementById('formatBrushBtn');
+        if(btn) {
+            if(formatBrushActive) {
+                btn.style.background = '#FFA7A7';
+                btn.style.color = 'white';
+                alert('🎨 格式刷已开启！先选中要复制格式的文本，再点击目标位置应用格式');
+            } else {
+                btn.style.background = '';
+                btn.style.color = '';
+            }
+        }
+        
+        document.addEventListener('mouseup', handleFormatBrush);
+    }
+
+    function handleFormatBrush(e) {
+        if(!formatBrushActive) return;
+        
+        const selection = window.getSelection();
+        if(selection.rangeCount > 0 && selection.toString().length > 0) {
+            savedRange = selection.getRangeAt(0).cloneRange();
+            
+            const parentFont = findParentWithColor(savedRange.startContainer);
+            if(parentFont) {
+                const color = parentFont.color;
+                const fontSize = parentFont.fontSize;
+                
+                if(color) {
+                    const colorInput = document.getElementById('textColor');
+                    if(colorInput) colorInput.value = color;
+                }
+            }
+            
+            alert('✅ 格式已复制！现在点击要应用格式的位置');
+        }
+    }
+
+    function findParentWithColor(node) {
+        let current = node;
+        if(current.nodeType === 3) current = current.parentElement;
+        while(current && current !== document.body) {
+            if(current.color) return current;
+            if(current.style && current.style.color) {
+                return { color: current.style.color, fontSize: current.style.fontSize };
+            }
+            current = current.parentElement;
+        }
+        return null;
+    }
+
+    function restoreSelection() {
+        if(savedRange) {
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(savedRange);
+        }
+    }
+
+    // 加载保存的内容
+    function loadSavedContent() {
+        const savedContent = JSON.parse(localStorage.getItem('topicContent') || '{}');
+        Object.keys(savedContent).forEach(topic => {
+            knowledgeBase[topic] = savedContent[topic];
+        });
+        
+        // 加载保存的分类，如果没有则使用默认分类
+        const savedCategories = localStorage.getItem('topicCategories');
+        if(savedCategories) {
+            // 确保保存的分类数据有效
+            try {
+                const parsedCategories = JSON.parse(savedCategories);
+                if(Array.isArray(parsedCategories) && parsedCategories.length > 0) {
+                    topicCategories.length = 0;
+                    parsedCategories.forEach(cat => topicCategories.push(cat));
+                }
+            } catch(e) {
+                console.error('加载分类数据失败，使用默认分类');
+                // 保留默认分类
+            }
+        }
+    }
+
+    // 初始化时加载保存的内容
+    loadSavedContent();
+    
+    // 文件管理功能
+    let uploadedFiles = [];
+    
+    // 加载已上传的文件
+    function loadFiles() {
+        try {
+            const savedFiles = localStorage.getItem('uploadedFiles');
+            if (savedFiles) {
+                uploadedFiles = JSON.parse(savedFiles);
+                renderFiles();
+            }
+        } catch (e) {
+            console.error('加载文件失败:', e);
+            uploadedFiles = [];
+        }
+    }
+    
+    // 上传文件
+    function uploadFiles() {
+        const fileInput = document.getElementById('fileUpload');
+        const files = fileInput.files;
+        
+        if (files.length === 0) {
+            alert('请选择要上传的文件！');
+            return;
+        }
+        
+        Array.from(files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const fileData = {
+                    id: Date.now() + Math.random(),
+                    name: file.name,
+                    type: file.type,
+                    size: file.size,
+                    data: e.target.result,
+                    uploadedAt: new Date().toISOString()
+                };
+                
+                uploadedFiles.push(fileData);
+                saveFiles();
+                renderFiles();
+            };
+            reader.readAsDataURL(file);
+        });
+        
+        // 清空文件输入
+        fileInput.value = '';
+        alert(`已上传 ${files.length} 个文件！`);
+    }
+    
+    // 保存文件到本地存储
+    function saveFiles() {
+        try {
+            localStorage.setItem('uploadedFiles', JSON.stringify(uploadedFiles));
+        } catch (e) {
+            console.error('保存文件失败:', e);
+            alert('文件保存失败，可能是存储空间不足');
+        }
+    }
+    
+    // 渲染文件列表
+    function renderFiles() {
+        const container = document.getElementById('filesContainer');
+        
+        if (uploadedFiles.length === 0) {
+            container.innerHTML = '<p style="color: #666; text-align: center; padding: 2rem;">📂 暂无上传文件</p>';
+            return;
+        }
+        
+        container.innerHTML = uploadedFiles.map(file => {
+            const fileSize = (file.size / 1024).toFixed(2) + 'KB';
+            const fileType = file.type || 'application/octet-stream';
+            const isImage = fileType.startsWith('image/');
+            const isPDF = fileType === 'application/pdf';
+            const isText = fileType.startsWith('text/') || 
+                          fileType === 'application/json' ||
+                          fileType === 'application/javascript';
+            
+            return `
+                <div class="file-item" style="display: flex; align-items: center; padding: 1rem; margin: 0.5rem 0; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <div class="file-icon" style="margin-right: 1rem; font-size: 1.5rem;">
+                        ${isImage ? '🖼️' : isPDF ? '📄' : '📃'}
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: bold; margin-bottom: 0.2rem;">${file.name}</div>
+                        <div style="font-size: 0.8rem; color: #666;">
+                            ${fileSize} · ${new Date(file.uploadedAt).toLocaleString()}
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        ${(isImage || isPDF || isText) ? `
+                            <button class="btn-outline" onclick="previewFile(${file.id})" title="预览">
+                                👁️
+                            </button>
+                        ` : ''}
+                        <button class="btn-outline" onclick="downloadFile(${file.id})" title="下载">
+                            📥
+                        </button>
+                        <button class="btn-outline" onclick="deleteFile(${file.id})" title="删除" style="color: #ff6b81;">
+                            🗑️
+                        </button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+    
+    // 预览文件
+    function previewFile(fileId) {
+        const file = uploadedFiles.find(f => f.id === fileId);
+        if (!file) return;
+        
+        const isImage = file.type.startsWith('image/');
+        const isPDF = file.type === 'application/pdf';
+        const isText = file.type.startsWith('text/') || 
+                      file.type === 'application/json' ||
+                      file.type === 'application/javascript';
+        
+        if (isImage) {
+            // 预览图片
+            const previewWindow = window.open('', '_blank');
+            previewWindow.document.write(`
+                <html>
+                    <head><title>预览: ${file.name}</title></head>
+                    <body style="margin: 0; padding: 20px; background: #f5f5f5;">
+                        <h2 style="text-align: center; color: #333;">${file.name}</h2>
+                        <div style="text-align: center;">
+                            <img src="${file.data}" style="max-width: 90%; max-height: 80vh; border: 1px solid #ddd; border-radius: 8px;" />
+                        </div>
+                    </body>
+                </html>
+            `);
+        } else if (isPDF) {
+            // 预览PDF
+            const previewWindow = window.open('', '_blank');
+            previewWindow.document.write(`
+                <html>
+                    <head><title>预览: ${file.name}</title></head>
+                    <body style="margin: 0; padding: 20px; background: #f5f5f5;">
+                        <h2 style="text-align: center; color: #333;">${file.name}</h2>
+                        <div style="text-align: center;">
+                            <embed src="${file.data}" type="application/pdf" width="90%" height="80vh" />
+                        </div>
+                    </body>
+                </html>
+            `);
+        } else if (isText) {
+            // 预览文本文件
+            fetch(file.data)
+                .then(response => response.text())
+                .then(text => {
+                    const previewWindow = window.open('', '_blank');
+                    previewWindow.document.write(`
+                        <html>
+                            <head><title>预览: ${file.name}</title></head>
+                            <body style="margin: 0; padding: 20px; background: #f5f5f5;">
+                                <h2 style="text-align: center; color: #333;">${file.name}</h2>
+                                <div style="background: white; padding: 20px; border-radius: 8px; margin: 0 auto; max-width: 800px; max-height: 80vh; overflow: auto;">
+                                    <pre style="white-space: pre-wrap; font-family: monospace; font-size: 14px;">${text}</pre>
+                                </div>
+                            </body>
+                        </html>
+                    `);
+                });
+        } else {
+            alert('该文件类型不支持预览，请下载后查看');
+        }
+    }
+    
+    // 下载文件
+    function downloadFile(fileId) {
+        const file = uploadedFiles.find(f => f.id === fileId);
+        if (!file) return;
+        
+        const link = document.createElement('a');
+        link.href = file.data;
+        link.download = file.name;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+    
+    // 删除文件
+    function deleteFile(fileId) {
+        if (confirm('确定要删除这个文件吗？')) {
+            uploadedFiles = uploadedFiles.filter(f => f.id !== fileId);
+            saveFiles();
+            renderFiles();
+            alert('文件已删除！');
+        }
+    }
+    
+    // 加载文件
+    loadFiles();
+    
+    // ---------- 5. 待办事项管理功能 ----------
+    let currentDate = new Date();
+    let selectedDate = new Date();
+    let todos = {};
+    
+    // 加载待办事项
+    function loadTodos() {
+        try {
+            const savedTodos = localStorage.getItem('todos');
+            if (savedTodos) {
+                todos = JSON.parse(savedTodos);
+            }
+        } catch (e) {
+            console.error('加载待办事项失败:', e);
+            todos = {};
+        }
+    }
+    
+    // 保存待办事项
+    function saveTodos() {
+        try {
+            localStorage.setItem('todos', JSON.stringify(todos));
+        } catch (e) {
+            console.error('保存待办事项失败:', e);
+        }
+    }
+    
+    // 打开待办事项模态框
+    function openTodoModal(period) {
+        // 根据时间段设置默认月份
+        let defaultMonth = 0;
+        switch(period) {
+            case '3-5': defaultMonth = 3; break; // 4月（0-indexed）
+            case '6-8': defaultMonth = 6; break; // 7月
+            case '9-10': defaultMonth = 8; break; // 9月
+            case '11-12': defaultMonth = 10; break; // 11月
+        }
+        currentDate = new Date();
+        currentDate.setMonth(defaultMonth);
+        selectedDate = new Date(currentDate);
+        
+        loadTodos();
+        renderCalendar();
+        renderTodoList();
+        document.getElementById('todoModal').style.display = 'block';
+    }
+    
+    // 关闭待办事项模态框
+    function closeTodoModal() {
+        document.getElementById('todoModal').style.display = 'none';
+    }
+    
+    // 更改月份
+    function changeMonth(direction) {
+        currentDate.setMonth(currentDate.getMonth() + direction);
+        renderCalendar();
+    }
+    
+    // 渲染日历
+    function renderCalendar() {
+        const calendarGrid = document.getElementById('calendarGrid');
+        const currentMonthEl = document.getElementById('currentMonth');
+        
+        // 设置当前月份标题
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth();
+        currentMonthEl.textContent = `${year}年${month + 1}月`;
+        
+        // 清空日历网格
+        calendarGrid.innerHTML = '';
+        
+        // 添加星期标题
+        const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+        weekdays.forEach(day => {
+            const dayEl = document.createElement('div');
+            dayEl.style.cssText = 'text-align: center; font-weight: bold; color: #d89494; padding: 10px;';
+            dayEl.textContent = day;
+            calendarGrid.appendChild(dayEl);
+        });
+        
+        // 获取月份信息
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        const startDate = new Date(firstDay);
+        startDate.setDate(startDate.getDate() - firstDay.getDay());
+        
+        // 生成日历单元格
+        for (let i = 0; i < 42; i++) { // 6周 * 7天
+            const date = new Date(startDate);
+            date.setDate(startDate.getDate() + i);
+            
+            const dayEl = document.createElement('div');
+            dayEl.style.cssText = `
+                text-align: center; 
+                padding: 15px; 
+                border: 1px solid #ffe8e8; 
+                border-radius: 8px; 
+                cursor: pointer; 
+                transition: all 0.2s;
+                ${date.getMonth() !== month ? 'background: #f9f9f9; color: #ccc;' : ''}
+                ${isSameDay(date, selectedDate) ? 'background: #FFA7A7; color: white;' : ''}
+            `;
+            
+            dayEl.textContent = date.getDate();
+            dayEl.onclick = () => {
+                selectedDate = new Date(date);
+                renderCalendar();
+                renderTodoList();
+            };
+            
+            calendarGrid.appendChild(dayEl);
+        }
+    }
+    
+    // 检查两个日期是否是同一天
+    function isSameDay(date1, date2) {
+        return date1.getFullYear() === date2.getFullYear() &&
+               date1.getMonth() === date2.getMonth() &&
+               date1.getDate() === date2.getDate();
+    }
+    
+    // 格式化日期为 YYYY-MM-DD
+    function formatDate(date) {
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+    }
+    
+    // 渲染待办事项列表
+    function renderTodoList() {
+        const todoListEl = document.getElementById('todoList');
+        const dateKey = formatDate(selectedDate);
+        const dateTodos = todos[dateKey] || [];
+        
+        if (dateTodos.length === 0) {
+            todoListEl.innerHTML = '<p style="color: #666; text-align: center; padding: 1rem;">📝 暂无待办事项</p>';
+            return;
+        }
+        
+        todoListEl.innerHTML = dateTodos.map((todo, index) => {
+            return `
+                <div style="display: flex; align-items: center; padding: 10px; margin: 5px 0; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <input type="checkbox" ${todo.completed ? 'checked' : ''} onchange="toggleTodo('${dateKey}', ${index})" style="margin-right: 10px;">
+                    <div style="flex: 1;">
+                        <div style="font-weight: ${todo.completed ? 'normal' : 'bold'}; text-decoration: ${todo.completed ? 'line-through' : 'none'}; color: ${todo.completed ? '#999' : '#333'};">
+                            ${todo.title}
+                        </div>
+                        ${todo.description ? `<div style="font-size: 0.8rem; color: #666; margin-top: 5px;">${todo.description}</div>` : ''}
+                        ${todo.time ? `<div style="font-size: 0.7rem; color: #999; margin-top: 3px;">⏰ ${todo.time}</div>` : ''}
+                    </div>
+                    <button onclick="deleteTodo('${dateKey}', ${index})" style="background: none; border: none; color: #ff6b81; cursor: pointer; margin-left: 10px;">
+                        🗑️
+                    </button>
+                </div>
+            `;
+        }).join('');
+    }
+    
+    // 添加待办事项
+    function addTodo() {
+        const title = document.getElementById('todoTitle').value.trim();
+        const description = document.getElementById('todoDescription').value.trim();
+        const time = document.getElementById('todoTime').value;
+        
+        if (!title) {
+            alert('请输入待办事项标题！');
+            return;
+        }
+        
+        const dateKey = formatDate(selectedDate);
+        if (!todos[dateKey]) {
+            todos[dateKey] = [];
+        }
+        
+        todos[dateKey].push({
+            id: Date.now() + Math.random(),
+            title: title,
+            description: description,
+            time: time,
+            completed: false
+        });
+        
+        saveTodos();
+        renderTodoList();
+        
+        // 清空表单
+        document.getElementById('todoTitle').value = '';
+        document.getElementById('todoDescription').value = '';
+        document.getElementById('todoTime').value = '';
+    }
+    
+    // 切换待办事项完成状态
+    function toggleTodo(dateKey, index) {
+        if (todos[dateKey] && todos[dateKey][index]) {
+            todos[dateKey][index].completed = !todos[dateKey][index].completed;
+            saveTodos();
+            renderTodoList();
+        }
+    }
+    
+    // 删除待办事项
+    function deleteTodo(dateKey, index) {
+        if (confirm('确定要删除这个待办事项吗？')) {
+            if (todos[dateKey]) {
+                todos[dateKey].splice(index, 1);
+                if (todos[dateKey].length === 0) {
+                    delete todos[dateKey];
+                }
+                saveTodos();
+                renderTodoList();
+            }
+        }
+    }
+    
+    // 点击模态框外部关闭
+    window.onclick = function(event) {
+        const modal = document.getElementById('todoModal');
+        if (event.target === modal) {
+            closeTodoModal();
+        }
+    }
+    
+    // ---------- 6. 文章库功能 ----------
+    let currentUser = '默认用户';
+    let articles = {};
+    
+    // 预设高质量新传考研文章
+    const defaultArticles = [
+        {
+            id: 1,
+            title: "宝厂·百宝箱",
+            url: "https://flowus.cn/baochang/share/ef0dbdb8-4272-4803-910e-8cbaa6514f85",
+            type: "link",
+            addedAt: new Date().toISOString()
+        },
+        {
+            id: 2,
+            title: "中国知网",
+            url: "https://www.cnki.net/",
+            type: "link",
+            addedAt: new Date().toISOString()
+        },
+        {
+            id: 3,
+            title: "黄贺铂 王春：平台媒体基础设施的媒介化融合与风险治理路径（《青年记者》）",
+            url: "https://dzrb.dzng.com/general/0/NEWS2204667EXPHKPVKLPLUE",
+            type: "link",
+            addedAt: new Date().toISOString()
+        },
+        {
+            id: 4,
+            title: "史安斌 郑恩：超越新闻泰勒主义：人工智能时代新闻业的转型危机与制度重构（《青年记者》）",
+            url: "https://dzrb.dzng.com/general/0/NEWS2333742DMVWCPBKDSWTX",
+            type: "link",
+            addedAt: new Date().toISOString()
+        },
+        {
+            id: 5,
+            title: "人工智能与深度伪造时代视觉新闻伦理分析与探索研究（中国网·新闻中心）",
+            url: "http://news.china.com.cn/2025-07/27/content_76452707.shtml",
+            type: "link",
+            addedAt: new Date().toISOString()
+        }
+    ];
+    
+    // 加载文章库数据
+    function loadArticles() {
+        try {
+            const savedArticles = localStorage.getItem(`articles_${currentUser}`);
+            if (savedArticles) {
+                articles = JSON.parse(savedArticles);
+            } else {
+                // 首次使用，加载默认文章
+                articles = { links: defaultArticles, files: [] };
+                saveArticles();
+            }
+        } catch (e) {
+            console.error('加载文章库失败:', e);
+            articles = { links: defaultArticles, files: [] };
+        }
+    }
+    
+    // 保存文章库数据
+    function saveArticles() {
+        try {
+            localStorage.setItem(`articles_${currentUser}`, JSON.stringify(articles));
+        } catch (e) {
+            console.error('保存文章库失败:', e);
+        }
+    }
+    
+    // 切换用户
+    function switchUser() {
+        const newUser = document.getElementById('username').value.trim() || '默认用户';
+        currentUser = newUser;
+        loadArticles();
+        renderArticleList();
+        alert(`已切换到用户：${currentUser}`);
+    }
+    
+    // 添加文章
+    function addArticle() {
+        const title = document.getElementById('articleTitle').value.trim();
+        const url = document.getElementById('articleUrl').value.trim();
+        const fileInput = document.getElementById('articleFile');
+        
+        if (fileInput.files.length > 0) {
+            // 上传文件
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const fileData = {
+                    id: Date.now() + Math.random(),
+                    name: file.name,
+                    type: file.type,
+                    size: file.size,
+                    data: e.target.result,
+                    addedAt: new Date().toISOString()
+                };
+                
+                if (!articles.files) {
+                    articles.files = [];
+                }
+                articles.files.push(fileData);
+                saveArticles();
+                renderArticleList();
+                alert('文件已添加到文章库！');
+            };
+            reader.readAsDataURL(file);
+        } else if (title && url) {
+            // 添加链接
+            if (!articles.links) {
+                articles.links = [];
+            }
+            articles.links.push({
+                id: Date.now() + Math.random(),
+                title: title,
+                url: url,
+                type: "link",
+                addedAt: new Date().toISOString()
+            });
+            saveArticles();
+            renderArticleList();
+            alert('文章链接已添加到文章库！');
+        } else {
+            alert('请输入文章标题和链接，或选择文件！');
+            return;
+        }
+        
+        // 清空表单
+        document.getElementById('articleTitle').value = '';
+        document.getElementById('articleUrl').value = '';
+        document.getElementById('articleFile').value = '';
+    }
+    
+    // 渲染文章列表
+    function renderArticleList() {
+        const articleListEl = document.getElementById('articleList');
+        
+        if (!articles.links && !articles.files) {
+            articleListEl.innerHTML = '<p style="color: #666; text-align: center; padding: 2rem;">📚 文章库为空</p>';
+            return;
+        }
+        
+        let html = '';
+        
+        // 渲染文章链接
+        if (articles.links && articles.links.length > 0) {
+            html += `
+                <div style="margin-bottom: 2rem;">
+                    <h4 style="color: #d89494; margin-bottom: 1rem;">🔗 文章链接</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem;">
+            `;
+            
+            articles.links.forEach(article => {
+                html += `
+                    <div style="background: #fef7f7; padding: 1rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <h5 style="margin: 0 0 0.5rem 0; color: #d89494;">${article.title}</h5>
+                        <a href="${article.url}" target="_blank" style="color: #FFA7A7; text-decoration: none; font-size: 0.9rem; word-break: break-all;">${article.url}</a>
+                        <div style="font-size: 0.7rem; color: #999; margin-top: 0.5rem;">
+                            添加于 ${new Date(article.addedAt).toLocaleString()}
+                        </div>
+                        <button onclick="deleteArticle('link', ${article.id})" style="background: none; border: none; color: #ff6b81; cursor: pointer; margin-top: 0.5rem; font-size: 0.8rem;">
+                            🗑️ 删除
+                        </button>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                </div>
+            `;
+        }
+        
+        // 渲染上传的文件
+        if (articles.files && articles.files.length > 0) {
+            html += `
+                <div>
+                    <h4 style="color: #d89494; margin-bottom: 1rem;">📁 上传文件</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem;">
+            `;
+            
+            articles.files.forEach(file => {
+                const fileSize = (file.size / 1024).toFixed(2) + 'KB';
+                const isPDF = file.type === 'application/pdf';
+                const isDoc = file.type.includes('word');
+                
+                html += `
+                    <div style="background: #fef7f7; padding: 1rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                            <div style="font-size: 1.5rem; margin-right: 1rem;">
+                                ${isPDF ? '📄' : isDoc ? '📃' : '📁'}
+                            </div>
+                            <h5 style="margin: 0; color: #d89494; flex: 1;">${file.name}</h5>
+                        </div>
+                        <div style="font-size: 0.7rem; color: #999; margin-bottom: 0.5rem;">
+                            ${fileSize} · ${new Date(file.addedAt).toLocaleString()}
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button onclick="previewArticleFile(${file.id})" class="btn-outline" style="font-size: 0.8rem; padding: 0.3rem 0.8rem;">
+                                👁️ 预览
+                            </button>
+                            <button onclick="downloadArticleFile(${file.id})" class="btn-outline" style="font-size: 0.8rem; padding: 0.3rem 0.8rem;">
+                                📥 下载
+                            </button>
+                            <button onclick="deleteArticle('file', ${file.id})" class="btn-outline" style="font-size: 0.8rem; padding: 0.3rem 0.8rem; color: #ff6b81;">
+                                🗑️ 删除
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                </div>
+            `;
+        }
+        
+        articleListEl.innerHTML = html;
+    }
+    
+    // 预览文章文件
+    function previewArticleFile(fileId) {
+        const file = articles.files.find(f => f.id === fileId);
+        if (!file) return;
+        
+        const isPDF = file.type === 'application/pdf';
+        const isDoc = file.type.includes('word');
+        
+        if (isPDF) {
+            // 预览PDF
+            const previewWindow = window.open('', '_blank');
+            previewWindow.document.write(`
+                <html>
+                    <head><title>预览: ${file.name}</title></head>
+                    <body style="margin: 0; padding: 20px; background: #f5f5f5;">
+                        <h2 style="text-align: center; color: #333;">${file.name}</h2>
+                        <div style="text-align: center;">
+                            <embed src="${file.data}" type="application/pdf" width="90%" height="80vh" />
+                        </div>
+                    </body>
+                </html>
+            `);
+        } else if (isDoc) {
+            // Word文件建议下载
+            alert('Word文件建议下载后查看');
+            downloadArticleFile(fileId);
+        } else {
+            alert('该文件类型不支持预览，请下载后查看');
+        }
+    }
+    
+    // 下载文章文件
+    function downloadArticleFile(fileId) {
+        const file = articles.files.find(f => f.id === fileId);
+        if (!file) return;
+        
+        const link = document.createElement('a');
+        link.href = file.data;
+        link.download = file.name;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+    
+    // 删除文章
+    function deleteArticle(type, id) {
+        if (confirm('确定要删除这个项目吗？')) {
+            if (type === 'link') {
+                articles.links = articles.links.filter(article => article.id !== id);
+            } else if (type === 'file') {
+                articles.files = articles.files.filter(file => file.id !== id);
+            }
+            saveArticles();
+            renderArticleList();
+            alert('项目已删除！');
+        }
+    }
+    
+    // 初始化文章库
+    function initArticleLibrary() {
+        // 清除旧的文章库数据，确保使用新的预设文章
+        localStorage.removeItem('articles_默认用户');
+        localStorage.removeItem('articles_用户1');
+        localStorage.removeItem('articles_用户2');
+        
+        loadArticles();
+        renderArticleList();
+        console.log('文章库初始化完成，预设文章已加载');
+    }
+    
+    // ---------- 7. 专题练习编辑功能 ----------
+    function openTopicEditModal() {
+        const modal = document.getElementById('topicEditModal');
+        modal.style.display = 'block';
+        populateCategorySelect();
+        populateDeleteSelect();
+    }
+    
+    function closeTopicEditModal() {
+        const modal = document.getElementById('topicEditModal');
+        modal.style.display = 'none';
+    }
+    
+    function populateCategorySelect() {
+        const select = document.getElementById('categorySelect');
+        select.innerHTML = '';
+        
+        topicCategories.forEach((cat, index) => {
+            const option = document.createElement('option');
+            option.value = index;
+            option.textContent = cat.name;
+            select.appendChild(option);
+        });
+    }
+    
+    function populateDeleteSelect() {
+        const select = document.getElementById('deleteSelect');
+        select.innerHTML = '';
+        
+        topicCategories.forEach((cat, catIndex) => {
+            const catOption = document.createElement('option');
+            catOption.value = `category_${catIndex}`;
+            catOption.textContent = `分类: ${cat.name}`;
+            select.appendChild(catOption);
+            
+            cat.children.forEach((topic, topicIndex) => {
+                const topicOption = document.createElement('option');
+                topicOption.value = `topic_${catIndex}_${topicIndex}`;
+                topicOption.textContent = `  - ${topic}`;
+                select.appendChild(topicOption);
+            });
+        });
+    }
+    
+    function addCategory() {
+        const name = document.getElementById('newCategoryName').value.trim();
+        const icon = document.getElementById('newCategoryIcon').value.trim() || 'fas fa-folder';
+        
+        if (name) {
+            topicCategories.push({
+                name: name,
+                icon: icon,
+                children: []
+            });
+            
+            document.getElementById('newCategoryName').value = '';
+            document.getElementById('newCategoryIcon').value = '';
+            populateCategorySelect();
+            populateDeleteSelect();
+            alert('分类添加成功！');
+        } else {
+            alert('请输入分类名称！');
+        }
+    }
+    
+    function addTopic() {
+        const catIndex = parseInt(document.getElementById('categorySelect').value);
+        const topicName = document.getElementById('newTopicName').value.trim();
+        
+        if (topicName) {
+            topicCategories[catIndex].children.push(topicName);
+            document.getElementById('newTopicName').value = '';
+            populateDeleteSelect();
+            alert('专题添加成功！');
+        } else {
+            alert('请输入专题名称！');
+        }
+    }
+    
+    function deleteTopicItem() {
+        const selectValue = document.getElementById('deleteSelect').value;
+        
+        if (selectValue.startsWith('category_')) {
+            const catIndex = parseInt(selectValue.split('_')[1]);
+            if (confirm(`确定要删除分类 "${topicCategories[catIndex].name}" 及其所有子专题吗？`)) {
+                topicCategories.splice(catIndex, 1);
+                populateCategorySelect();
+                populateDeleteSelect();
+                alert('分类删除成功！');
+            }
+        } else if (selectValue.startsWith('topic_')) {
+            const parts = selectValue.split('_');
+            const catIndex = parseInt(parts[1]);
+            const topicIndex = parseInt(parts[2]);
+            if (confirm(`确定要删除专题 "${topicCategories[catIndex].children[topicIndex]}" 吗？`)) {
+                topicCategories[catIndex].children.splice(topicIndex, 1);
+                populateDeleteSelect();
+                alert('专题删除成功！');
+            }
+        }
+    }
+    
+    function saveTopicChanges() {
+        localStorage.setItem('topicCategories', JSON.stringify(topicCategories));
+        buildTree();
+        closeTopicEditModal();
+        alert('专题栏目已保存！');
+    }
+    
+    // 点击模态框外部关闭
+    window.onclick = function(event) {
+        const modal = document.getElementById('todoModal');
+        const topicModal = document.getElementById('topicEditModal');
+        const examModal = document.getElementById('examEditModal');
+        if (event.target === modal) {
+            closeTodoModal();
+        }
+        if (event.target === topicModal) {
+            closeTopicEditModal();
+        }
+        if (event.target === examModal) {
+            closeExamEditModal();
+        }
+    }
+    
+    // ---------- 8. 模拟考场编辑功能 ----------
+    function openExamEditModal() {
+        const modal = document.getElementById('examEditModal');
+        modal.style.display = 'block';
+        
+        // 更新下拉菜单，显示所有现有的模考
+        const select = document.getElementById('examSelect');
+        select.innerHTML = '';
+        
+        Object.keys(examsData).sort((a, b) => a - b).forEach(examId => {
+            const option = document.createElement('option');
+            option.value = examId;
+            option.textContent = examsData[examId].name;
+            select.appendChild(option);
+        });
+        
+        loadExamData();
+    }
+    
+    function closeExamEditModal() {
+        const modal = document.getElementById('examEditModal');
+        modal.style.display = 'none';
+    }
+    
+    function loadExamData() {
+        const examId = document.getElementById('examSelect').value;
+        const exam = examsData[examId];
+        
+        if (exam) {
+            document.getElementById('examName').value = exam.name;
+            
+            // 加载名词解释
+            const mcContainer = document.getElementById('mcQuestions');
+            mcContainer.innerHTML = '';
+            exam.mc.forEach((question, index) => {
+                mcContainer.innerHTML += `
+                    <div style="margin-bottom: 8px;">
+                        <input type="text" id="mc_${index}" value="${question}" style="width: 100%; padding: 6px; border: 1px solid #FFD0D0; border-radius: 6px;">
+                    </div>
+                `;
+            });
+            
+            // 加载简答题
+            const saContainer = document.getElementById('saQuestions');
+            saContainer.innerHTML = '';
+            exam.sa.forEach((question, index) => {
+                saContainer.innerHTML += `
+                    <div style="margin-bottom: 8px;">
+                        <input type="text" id="sa_${index}" value="${question}" style="width: 100%; padding: 6px; border: 1px solid #FFD0D0; border-radius: 6px;">
+                    </div>
+                `;
+            });
+            
+            // 加载论述题
+            const essayContainer = document.getElementById('essayQuestions');
+            essayContainer.innerHTML = '';
+            exam.essay.forEach((question, index) => {
+                essayContainer.innerHTML += `
+                    <div style="margin-bottom: 8px;">
+                        <input type="text" id="essay_${index}" value="${question}" style="width: 100%; padding: 6px; border: 1px solid #FFD0D0; border-radius: 6px;">
+                    </div>
+                `;
+            });
+        }
+    }
+    
+    function addNewExam() {
+        const newExamName = prompt('请输入新模考的名称：');
+        if (!newExamName) return;
+        
+        // 生成新的模考ID
+        const examIds = Object.keys(examsData).map(Number).sort((a, b) => a - b);
+        const newExamId = examIds.length > 0 ? examIds[examIds.length - 1] + 1 : 1;
+        
+        // 创建新模考数据
+        examsData[newExamId] = {
+            name: newExamName,
+            mc: ['名词解释1', '名词解释2', '名词解释3', '名词解释4'],
+            sa: [
+                '简答题1',
+                '简答题2',
+                '简答题3',
+                '简答题4',
+                '简答题5',
+                '简答题6'
+            ],
+            essay: [
+                '论述题1',
+                '论述题2'
+            ]
+        };
+        
+        // 更新下拉列表
+        const select = document.getElementById('examSelect');
+        const option = document.createElement('option');
+        option.value = newExamId;
+        option.textContent = newExamName;
+        select.appendChild(option);
+        select.value = newExamId;
+        
+        // 加载新模考数据
+        loadExamData();
+        
+        alert('新模考已添加！');
+    }
+    
+    function deleteCurrentExam() {
+        const examId = document.getElementById('examSelect').value;
+        const examName = examsData[examId]?.name || '此模考';
+        
+        if (Object.keys(examsData).length <= 1) {
+            alert('至少需要保留一份模考！');
+            return;
+        }
+        
+        if (confirm(`确定要删除模考 "${examName}" 吗？此操作不可撤销。`)) {
+            // 删除模考数据
+            delete examsData[examId];
+            
+            // 保存到localStorage
+            localStorage.setItem('examsData', JSON.stringify(examsData));
+            
+            // 更新下拉列表
+            const select = document.getElementById('examSelect');
+            select.innerHTML = '';
+            Object.keys(examsData).sort((a, b) => a - b).forEach(id => {
+                const option = document.createElement('option');
+                option.value = id;
+                option.textContent = examsData[id].name;
+                select.appendChild(option);
+            });
+            
+            // 更新模考按钮
+            updateExamButtons();
+            
+            // 渲染第一份试卷
+            const firstExamId = Object.keys(examsData).sort((a, b) => a - b)[0];
+            renderExamPaper(parseInt(firstExamId));
+            
+            // 加载数据
+            loadExamData();
+            
+            alert('模考已删除！');
+        }
+    }
+    
+    function updateExamButtons() {
+        const examButtonsContainer = document.getElementById('examTabButtons');
+        examButtonsContainer.innerHTML = '';
+        
+        Object.keys(examsData).sort((a, b) => a - b).forEach(examId => {
+            const exam = examsData[examId];
+            const button = document.createElement('button');
+            button.className = `exam-btn ${examId === '1' ? 'active' : ''}`;
+            button.dataset.exam = examId;
+            button.textContent = `📖 ${exam.name}`;
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.exam-btn').forEach(b => b.classList.remove('active'));
+                button.classList.add('active');
+                const id = parseInt(button.getAttribute('data-exam'));
+                renderExamPaper(id);
+            });
+            examButtonsContainer.appendChild(button);
+        });
+    }
+    
+    function saveExamChanges() {
+        const examId = document.getElementById('examSelect').value;
+        const examName = document.getElementById('examName').value.trim();
+        
+        if (!examName) {
+            alert('请输入模考名称！');
+            return;
+        }
+        
+        // 收集题目
+        const mcQuestions = [];
+        for (let i = 0; i < 4; i++) {
+            const question = document.getElementById(`mc_${i}`).value.trim();
+            if (question) {
+                mcQuestions.push(question);
+            }
+        }
+        
+        const saQuestions = [];
+        for (let i = 0; i < 6; i++) {
+            const question = document.getElementById(`sa_${i}`).value.trim();
+            if (question) {
+                saQuestions.push(question);
+            }
+        }
+        
+        const essayQuestions = [];
+        for (let i = 0; i < 2; i++) {
+            const question = document.getElementById(`essay_${i}`).value.trim();
+            if (question) {
+                essayQuestions.push(question);
+            }
+        }
+        
+        if (mcQuestions.length < 4 || saQuestions.length < 6 || essayQuestions.length < 2) {
+            alert('请确保所有题目都已填写！');
+            return;
+        }
+        
+        // 更新模考数据
+        examsData[examId] = {
+            name: examName,
+            mc: mcQuestions,
+            sa: saQuestions,
+            essay: essayQuestions
+        };
+        
+        // 保存到localStorage
+        localStorage.setItem('examsData', JSON.stringify(examsData));
+        
+        // 更新模考按钮
+        updateExamButtons();
+        
+        // 重新渲染当前试卷
+        if (currentExam === parseInt(examId)) {
+            renderExamPaper(currentExam);
+        }
+        
+        closeExamEditModal();
+        alert('模考信息已保存！');
+    }
+    
+    // 监听模考选择变化
+    document.getElementById('examSelect').addEventListener('change', loadExamData);
+    
+    // 重置文章库（强制使用新的预设文章）
+    function resetArticleLibrary() {
+        if (confirm('确定要重置文章库吗？这将清除所有现有文章，使用新的预设文章。')) {
+            // 清除所有用户的文章库数据
+            const keys = Object.keys(localStorage);
+            keys.forEach(key => {
+                if (key.startsWith('articles_')) {
+                    localStorage.removeItem(key);
+                }
+            });
+            
+            initArticleLibrary();
+            alert('文章库已重置，已加载新的预设文章！');
+        }
+    }
+    
+    // 页面加载完成后初始化
+    window.onload = function() {
+        initArticleLibrary();
+        
+        // 确保其他功能也正常初始化
+        if (typeof loadAllHotLists === 'function') {
+            loadAllHotLists();
+        }
+        
+        if (typeof buildTree === 'function') {
+            buildTree();
+        }
+        
+        if (typeof renderExamPaper === 'function') {
+            renderExamPaper(1);
+        }
+        
+        if (typeof loadFiles === 'function') {
+            loadFiles();
+        }
+    };
+</script>
+</body>
+</html>
